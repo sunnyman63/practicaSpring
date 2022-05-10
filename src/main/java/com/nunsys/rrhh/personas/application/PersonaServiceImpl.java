@@ -40,11 +40,7 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public Optional<PersonaDTO> getPersona(Integer id) {
         Optional<Persona> persona = personaRepository.findById(id);
-        if (persona.isPresent()) {
-            return Optional.of(this.mapper.personaToPersonaDto(persona.get()));
-        } else {
-            return Optional.empty();
-        }
+        return this.mapper.personaToPersonaDto(persona);
     }
 
 }
