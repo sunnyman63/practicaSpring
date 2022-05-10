@@ -1,5 +1,8 @@
-package com.nunsys.rrhh.personas;
+package com.nunsys.rrhh.personas.infrastructure;
 
+import com.nunsys.rrhh.personas.application.PersonaDTO;
+import com.nunsys.rrhh.personas.domain.Persona;
+import com.nunsys.rrhh.personas.application.PersonaService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,23 +24,23 @@ public class PersonaController {
     }
 
     @GetMapping("/persona")
-    public ResponseEntity<List<Persona>> getPersonas() {
+    public ResponseEntity<List<PersonaDTO>> getPersonas() {
         String accept = this.request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            List<Persona> personas = personaService.getAllPersons();
+            List<PersonaDTO> personas = personaService.getAllPersons();
             return new ResponseEntity<>(personas, HttpStatus.OK);
         }
-        return new ResponseEntity<List<Persona>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<PersonaDTO>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @PostMapping("/persona")
-    public ResponseEntity<Persona> postPersona(@RequestBody Persona nuevaPersona) {
+    public ResponseEntity<PersonaDTO> postPersona(@RequestBody PersonaDTO nuevaPersona) {
         String accept = this.request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            Persona persona = personaService.crearPersona(nuevaPersona);
+            PersonaDTO persona = personaService.crearPersona(nuevaPersona);
             return new ResponseEntity<>(persona, HttpStatus.OK);
         }
-        return new ResponseEntity<Persona>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<PersonaDTO>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("/persona/{id}")
@@ -51,16 +54,16 @@ public class PersonaController {
     }
 
     @GetMapping("/persona/{id}")
-    public ResponseEntity<Persona> getPersona(@PathVariable Integer id) {
+    public ResponseEntity<PersonaDTO> getPersona(@PathVariable Integer id) {
         String accept = this.request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            Optional<Persona> persona = personaService.getPersona(id);
+            Optional<PersonaDTO> persona = personaService.getPersona(id);
             if(persona.isPresent()) {
                 return new ResponseEntity<>(persona.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
-        return new ResponseEntity<Persona>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<PersonaDTO>(HttpStatus.NOT_IMPLEMENTED);
     }
 }

@@ -1,4 +1,4 @@
-package com.nunsys.rrhh.personas;
+package com.nunsys.rrhh.personas.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.lang.Nullable;
