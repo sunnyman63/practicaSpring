@@ -22,7 +22,9 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public List<PersonaDTO> getAllPersons() {
         List<PersonaDTO> personas = new ArrayList<>();
-        personaRepository.findAll().forEach(persona -> personas.add(this.mapper.personaToPersonaDto(persona)));
+        personaRepository.findAll().forEach(
+                persona -> personas.add(this.mapper.personaToPersonaDto(persona))
+        );
         return personas;
     }
 
@@ -41,6 +43,17 @@ public class PersonaServiceImpl implements PersonaService {
     public Optional<PersonaDTO> getPersona(Integer id) {
         Optional<Persona> persona = personaRepository.findById(id);
         return this.mapper.personaToPersonaDto(persona);
+    }
+
+    public List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria) {
+        List<PersonaDTO> personas = new ArrayList<>();
+        personaRepository.findByNombreContainsIgnoreCaseAndApellidosContainsIgnoreCase(
+                personaCriteria.getNombre(),
+                personaCriteria.getApellidos()).forEach(
+                        persona -> personas.add(this.mapper.personaToPersonaDto(persona)
+                )
+        );
+        return personas;
     }
 
 }

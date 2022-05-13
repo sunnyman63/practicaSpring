@@ -7,6 +7,7 @@ import java.util.Date;
 public class PersonaDTO {
     private Integer id;
     private String nombre;
+    private String apellidos;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date fechaNacimiento;
     private Integer edad;
@@ -25,6 +26,14 @@ public class PersonaDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public Date getFechaNacimiento() {

@@ -11,4 +11,5 @@ public interface PersonaService {
     PersonaDTO crearPersona(PersonaDTO persona);
     void deletePersona(Integer id);
     Optional<PersonaDTO> getPersona(Integer id);
+    List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria);
 }

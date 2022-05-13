@@ -1,7 +1,14 @@
 package com.nunsys.rrhh.personas.domain;
 
-import com.nunsys.rrhh.personas.domain.Persona;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonaRepository extends CrudRepository<Persona, Integer> {
+import java.util.List;
+import java.util.Optional;
+
+public interface PersonaRepository {
+    List<Persona> findByNombreContainsIgnoreCaseAndApellidosContainsIgnoreCase(String nombre, String apellidos);
+    Iterable<Persona> findAll();
+    Persona save(Persona persona);
+    void deleteById(Integer id);
+    Optional<Persona> findById(Integer id);
 }

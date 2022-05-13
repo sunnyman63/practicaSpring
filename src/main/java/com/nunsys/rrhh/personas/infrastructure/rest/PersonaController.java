@@ -1,5 +1,6 @@
-package com.nunsys.rrhh.personas.infrastructure;
+package com.nunsys.rrhh.personas.infrastructure.rest;
 
+import com.nunsys.rrhh.personas.application.PersonaCriteria;
 import com.nunsys.rrhh.personas.application.PersonaDTO;
 import com.nunsys.rrhh.personas.domain.Persona;
 import com.nunsys.rrhh.personas.application.PersonaService;
@@ -24,10 +25,18 @@ public class PersonaController {
     }
 
     @GetMapping("/persona")
-    public ResponseEntity<List<PersonaDTO>> getPersonas() {
+    public ResponseEntity<List<PersonaDTO>> getPersonas(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String apellidos
+    ) {
         String accept = this.request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            List<PersonaDTO> personas = personaService.getAllPersons();
+            List<PersonaDTO> personas;
+            PersonaCriteria personaCriteria = new PersonaCriteria.PersonaCriteriaBuilder()
+                    .setNombre(nombre)
+                    .setApellidos(apellidos)
+                    .build();
+            personas = personaService.getPersonsByCriteria(personaCriteria);
             return new ResponseEntity<>(personas, HttpStatus.OK);
         }
         return new ResponseEntity<List<PersonaDTO>>(HttpStatus.NOT_IMPLEMENTED);

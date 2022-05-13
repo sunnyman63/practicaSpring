@@ -16,8 +16,8 @@ public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "per_nombre", nullable = false)
     private String nombre;
+    private String apellidos;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date fechaNacimiento;
     @Transient
@@ -40,6 +40,14 @@ public class Persona {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public Date getFechaNacimiento() {
