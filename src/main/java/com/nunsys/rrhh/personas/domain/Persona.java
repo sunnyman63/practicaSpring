@@ -25,6 +25,11 @@ public class Persona {
 
     @Column(nullable = true, length = 10)
     private String telefono;
+    private String direccion;
+    private String ciudad;
+    private String provincia;
+    private boolean cesionDatos;
+    private Integer valoracionServicio;
 
     public Integer getId() {
         return id;
@@ -70,6 +75,46 @@ public class Persona {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public boolean isCesionDatos() {
+        return cesionDatos;
+    }
+
+    public void setCesionDatos(boolean cesionDatos) {
+        this.cesionDatos = cesionDatos;
+    }
+
+    public Integer getValoracionServicio() {
+        return valoracionServicio;
+    }
+
+    public void setValoracionServicio(Integer valoracionServicio) {
+        this.valoracionServicio = valoracionServicio;
     }
 
     private int calculateAge(Date birthDate, Date currentDate) {

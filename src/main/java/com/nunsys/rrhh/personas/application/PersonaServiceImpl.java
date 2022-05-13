@@ -47,9 +47,7 @@ public class PersonaServiceImpl implements PersonaService {
 
     public List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria) {
         List<PersonaDTO> personas = new ArrayList<>();
-        personaRepository.findByNombreContainsIgnoreCaseAndApellidosContainsIgnoreCase(
-                personaCriteria.getNombre(),
-                personaCriteria.getApellidos()).forEach(
+        personaRepository.findByCriteria(personaCriteria).forEach(
                         persona -> personas.add(this.mapper.personaToPersonaDto(persona)
                 )
         );

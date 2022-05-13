@@ -27,7 +27,9 @@ public class PersonaController {
     @GetMapping("/persona")
     public ResponseEntity<List<PersonaDTO>> getPersonas(
             @RequestParam(required = false) String nombre,
-            @RequestParam(required = false) String apellidos
+            @RequestParam(required = false) String apellidos,
+            @RequestParam(required = false) Integer valoracionMinima,
+            @RequestParam(required = false) Integer valoracionMaxima
     ) {
         String accept = this.request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -35,6 +37,8 @@ public class PersonaController {
             PersonaCriteria personaCriteria = new PersonaCriteria.PersonaCriteriaBuilder()
                     .setNombre(nombre)
                     .setApellidos(apellidos)
+                    .setValoracionMinima(valoracionMinima)
+                    .setValoracionMaxima(valoracionMaxima)
                     .build();
             personas = personaService.getPersonsByCriteria(personaCriteria);
             return new ResponseEntity<>(personas, HttpStatus.OK);

@@ -1,12 +1,14 @@
 package com.nunsys.rrhh.personas.domain;
 
+import com.nunsys.rrhh.personas.application.PersonaCriteria;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PersonaRepository {
-    List<Persona> findByNombreContainsIgnoreCaseAndApellidosContainsIgnoreCase(String nombre, String apellidos);
+    List<Persona> findByCriteria(PersonaCriteria personaCriteria);
     Iterable<Persona> findAll();
     Persona save(Persona persona);
     void deleteById(Integer id);

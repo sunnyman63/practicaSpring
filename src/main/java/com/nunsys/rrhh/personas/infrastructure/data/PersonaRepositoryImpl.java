@@ -1,7 +1,9 @@
 package com.nunsys.rrhh.personas.infrastructure.data;
 
+import com.nunsys.rrhh.personas.application.PersonaCriteria;
 import com.nunsys.rrhh.personas.domain.Persona;
 import com.nunsys.rrhh.personas.domain.PersonaRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,8 +18,25 @@ public class PersonaRepositoryImpl implements PersonaRepository {
     }
 
     @Override
-    public List<Persona> findByNombreContainsIgnoreCaseAndApellidosContainsIgnoreCase(String nombre, String apellidos){
-        return personaJpaRepository.findByNombreContainsIgnoreCaseAndApellidosContainsIgnoreCase(nombre, apellidos);
+    public List<Persona> findByCriteria(PersonaCriteria personaCriteria){
+        LikeSpecification<Persona> predicatedByNombre = new LikeSpecification<>(
+                "nombre",
+                personaCriteria.getNombre()
+        );
+        LikeSpecification<Persona> predicatedByApellidos = new LikeSpecification<>(
+                "apellidos",
+                personaCriteria.getApellidos()
+        );
+        BetweenSpecification<Persona> predicatedBetweenValoracion = new BetweenSpecification<>(
+                "valoracionServicio",
+                personaCriteria.getValoracionMinima(),
+                personaCriteria.getValoracionMaxima()
+        );
+        Specification<Persona> specification = Specification
+                .where(predicatedByNombre)
+                .and(predicatedByApellidos)
+                .and(predicatedBetweenValoracion);
+        return personaJpaRepository.findAll(specification);
     };
 
     @Override
