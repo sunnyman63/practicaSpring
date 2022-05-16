@@ -1,8 +1,12 @@
 package com.nunsys.rrhh.personas.infrastructure.data;
 
+import com.nunsys.rrhh.personas.application.PageInfo;
 import com.nunsys.rrhh.personas.application.PersonaCriteria;
 import com.nunsys.rrhh.personas.domain.Persona;
 import com.nunsys.rrhh.personas.domain.PersonaRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +22,7 @@ public class PersonaRepositoryImpl implements PersonaRepository {
     }
 
     @Override
-    public List<Persona> findByCriteria(PersonaCriteria personaCriteria){
+    public List<Persona> findByCriteria(PersonaCriteria personaCriteria, Optional<PageInfo> pageInfo){
         LikeSpecification<Persona> predicatedByNombre = new LikeSpecification<>(
                 "nombre",
                 personaCriteria.getNombre()
@@ -36,6 +40,10 @@ public class PersonaRepositoryImpl implements PersonaRepository {
                 .where(predicatedByNombre)
                 .and(predicatedByApellidos)
                 .and(predicatedBetweenValoracion);
+        if(pageInfo.isPresent()) {
+            Pageable pageable = PageRequest.of(pageInfo.get().getPage(),pageInfo.get().getPageSize(), Sort.by("apellidos"));
+            return personaJpaRepository.findAll(specification,pageable).getContent();
+        }
         return personaJpaRepository.findAll(specification);
     };
 

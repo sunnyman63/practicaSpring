@@ -45,11 +45,11 @@ public class PersonaServiceImpl implements PersonaService {
         return this.mapper.personaToPersonaDto(persona);
     }
 
-    public List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria) {
+    @Override
+    public List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria, Optional<PageInfo> pageInfo) {
         List<PersonaDTO> personas = new ArrayList<>();
-        personaRepository.findByCriteria(personaCriteria).forEach(
-                        persona -> personas.add(this.mapper.personaToPersonaDto(persona)
-                )
+        personaRepository.findByCriteria(personaCriteria,pageInfo).forEach(
+                persona -> personas.add(this.mapper.personaToPersonaDto(persona))
         );
         return personas;
     }

@@ -1,5 +1,6 @@
 package com.nunsys.rrhh.personas.infrastructure.rest;
 
+import com.nunsys.rrhh.personas.application.PageInfo;
 import com.nunsys.rrhh.personas.application.PersonaCriteria;
 import com.nunsys.rrhh.personas.application.PersonaDTO;
 import com.nunsys.rrhh.personas.domain.Persona;
@@ -29,7 +30,9 @@ public class PersonaController {
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String apellidos,
             @RequestParam(required = false) Integer valoracionMinima,
-            @RequestParam(required = false) Integer valoracionMaxima
+            @RequestParam(required = false) Integer valoracionMaxima,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer pageSize
     ) {
         String accept = this.request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
@@ -40,7 +43,11 @@ public class PersonaController {
                     .setValoracionMinima(valoracionMinima)
                     .setValoracionMaxima(valoracionMaxima)
                     .build();
-            personas = personaService.getPersonsByCriteria(personaCriteria);
+            Optional<PageInfo> pageInfo = new PageInfo.PageInfoBuilder()
+                    .setPage(page)
+                    .setPageSize(pageSize)
+                    .build();
+            personas = personaService.getPersonsByCriteria(personaCriteria, pageInfo);
             return new ResponseEntity<>(personas, HttpStatus.OK);
         }
         return new ResponseEntity<List<PersonaDTO>>(HttpStatus.NOT_IMPLEMENTED);
