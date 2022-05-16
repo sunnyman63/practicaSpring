@@ -12,4 +12,5 @@ public interface PersonaService {
     void deletePersona(Integer id);
     Optional<PersonaDTO> getPersona(Integer id);
     List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria, Optional<PageInfo> pageInfo);
+    void updateCesionDatos(List<PersonaCesionDatosDTO> listaPersonas);
 }

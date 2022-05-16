@@ -1,10 +1,7 @@
 package com.nunsys.rrhh.personas.infrastructure.rest;
 
-import com.nunsys.rrhh.personas.application.PageInfo;
-import com.nunsys.rrhh.personas.application.PersonaCriteria;
-import com.nunsys.rrhh.personas.application.PersonaDTO;
+import com.nunsys.rrhh.personas.application.*;
 import com.nunsys.rrhh.personas.domain.Persona;
-import com.nunsys.rrhh.personas.application.PersonaService;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,5 +82,17 @@ public class PersonaController {
             }
         }
         return new ResponseEntity<PersonaDTO>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    @PatchMapping("/persona/cesion-datos")
+    public ResponseEntity<Void> updateCesionDatos(
+            @RequestBody List<PersonaCesionDatosDTO> listaPersonas
+    ) {
+        try {
+            personaService.updateCesionDatos(listaPersonas);
+            return ResponseEntity.ok().build();
+        } catch (EmptyResultDataAccessException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

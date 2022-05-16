@@ -3,6 +3,7 @@ package com.nunsys.rrhh.personas.application;
 import com.nunsys.rrhh.personas.domain.Persona;
 import com.nunsys.rrhh.personas.domain.PersonaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,34 @@ public class PersonaServiceImpl implements PersonaService {
         personaRepository.findByCriteria(personaCriteria,pageInfo).forEach(
                 persona -> personas.add(this.mapper.personaToPersonaDto(persona))
         );
+        return personas;
+    }
+
+    @Override
+    @Transactional
+    public void updateCesionDatos(List<PersonaCesionDatosDTO> listaPersonas) {
+        List<Persona> personas = getPersonas(listaPersonas);
+        //Escritura en base de datos
+        saveCesionDatos(personas);
+    }
+
+    private void saveCesionDatos(List<Persona> personas) {
+        for(Persona persona: personas) {
+            personaRepository.save(persona);
+        }
+    }
+
+    private List<Persona> getPersonas(List<PersonaCesionDatosDTO> listaPersonas) {
+        List<Persona> personas = new ArrayList<>();
+        // Lectura y procesamineto de la información
+        for(PersonaCesionDatosDTO personaCesionDatosDto: listaPersonas) {
+            Optional<Persona> result = personaRepository.findById(personaCesionDatosDto.getId());
+            if(result.isPresent()) {
+                Persona persona = result.get();
+                persona.setCesionDatos(personaCesionDatosDto.getCesionDatos());
+                personas.add(persona);
+            }
+        }
         return personas;
     }
 
