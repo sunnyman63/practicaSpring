@@ -36,6 +36,13 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
+    public PersonaDTO updatePersona(PersonaDTO personaDTO) {
+        Persona persona = this.mapper.personaDtoToPersona(personaDTO);
+        persona = personaRepository.save(persona);
+        return mapper.personaToPersonaDto(persona);
+    }
+
+    @Override
     public void deletePersona(Integer id) {
         personaRepository.deleteById(id);
     }

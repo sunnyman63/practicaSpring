@@ -16,6 +16,7 @@ public class PersonaDTO {
     private boolean cesionDatos;
     private Integer valoracionServicio;
     private Integer edad;
+    private Integer version;
 
     public Integer getId() {
         return id;
@@ -95,5 +96,13 @@ public class PersonaDTO {
 
     public void setEdad(Integer edad) {
         this.edad = edad;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

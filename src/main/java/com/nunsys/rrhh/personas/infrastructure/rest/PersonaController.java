@@ -5,6 +5,7 @@ import com.nunsys.rrhh.personas.domain.Persona;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,5 +95,22 @@ public class PersonaController {
         } catch (EmptyResultDataAccessException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping("/persona/{id}")
+    public ResponseEntity<PersonaDTO> updatePersona(
+            @PathVariable Integer id,
+            @RequestBody PersonaDTO personaDTO
+    ) {
+        String accept = this.request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                PersonaDTO persona = personaService.updatePersona(personaDTO);
+                return new ResponseEntity<>(persona, HttpStatus.OK);
+            } catch(ObjectOptimisticLockingFailureException ex) {
+                return new ResponseEntity<>(HttpStatus.LOCKED);
+            }
+        }
+        return new ResponseEntity<PersonaDTO>(HttpStatus.NOT_IMPLEMENTED);
     }
 }

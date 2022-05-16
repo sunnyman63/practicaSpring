@@ -13,4 +13,5 @@ public interface PersonaService {
     Optional<PersonaDTO> getPersona(Integer id);
     List<PersonaDTO> getPersonsByCriteria(PersonaCriteria personaCriteria, Optional<PageInfo> pageInfo);
     void updateCesionDatos(List<PersonaCesionDatosDTO> listaPersonas);
+    PersonaDTO updatePersona(PersonaDTO personaDTO);
 }

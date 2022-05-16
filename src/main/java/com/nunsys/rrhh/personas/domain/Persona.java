@@ -30,6 +30,8 @@ public class Persona {
     private String provincia;
     private boolean cesionDatos;
     private Integer valoracionServicio;
+    @Version
+    private Integer version;
 
     public Integer getId() {
         return id;
@@ -115,6 +117,14 @@ public class Persona {
 
     public void setValoracionServicio(Integer valoracionServicio) {
         this.valoracionServicio = valoracionServicio;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     private int calculateAge(Date birthDate, Date currentDate) {
